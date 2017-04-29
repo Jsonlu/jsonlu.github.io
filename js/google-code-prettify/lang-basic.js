@@ -1,3 +1,3 @@
-// build time:Sat Apr 29 2017 22:18:31 GMT+0800 (CST)
+// build time:Sun Apr 30 2017 00:01:22 GMT+0800 (CST)
 PR.registerLangHandler(PR.createSimpleLexer([["str",/^(?:"(?:[^\\"\r\n]|\\.)*(?:"|$))/,null,'"'],["pln",/^\s+/,null," \r\n\t "]],[["com",/^REM[^\r\n]*/,null],["kwd",/^\b(?:AND|CLOSE|CLR|CMD|CONT|DATA|DEF ?FN|DIM|END|FOR|GET|GOSUB|GOTO|IF|INPUT|LET|LIST|LOAD|NEW|NEXT|NOT|ON|OPEN|OR|POKE|PRINT|READ|RESTORE|RETURN|RUN|SAVE|STEP|STOP|SYS|THEN|TO|VERIFY|WAIT)\b/,null],["pln",/^[A-Z][A-Z0-9]?(?:\$|%)?/i,null],["lit",/^(?:\d+(?:\.\d*)?|\.\d+)(?:e[+\-]?\d+)?/i,null,"0123456789"],["pun",/^.[^\s\w\.$%"]*/,null]]),["basic","cbm"]);
 //rebuild by neat 
