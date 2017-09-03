@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        一些命令｜JsonLu Blog
+        Docker学习(一)｜JsonLu Blog
         
     </title>
 
-    <link rel="canonical" href="https://jsonlu.github.io/2017/04/30/some-commond/">
+    <link rel="canonical" href="https://jsonlu.github.io/2017/09/03/docker-study/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,12 +137,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>一些命令</h1>
+                    <h1>Docker学习(一)</h1>
                     
                     <span class="meta">
                          作者 JsonLu
                         <span>
-                          日期 2017-04-30
+                          日期 2017-09-03
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -154,7 +154,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            一些命令
+            Docker学习(一)
         </span>
     </div>
 </header>
@@ -165,16 +165,43 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h3 id="maven3上传jar包"><a href="#maven3上传jar包" class="headerlink" title="maven3上传jar包"></a>maven3上传jar包</h3><p>mvn deploy:deploy-file -DrepositoryId=Sumpay-releases -Durl=<a href="http://192.168.8.238:8081/repository/thirdparty/" target="_blank" rel="external">http://192.168.8.238:8081/repository/thirdparty/</a> -Dpackaging=jar -Dfile=WorkSpace/android/libs/locSDK_6.12.jar -DgroupId=com.baidu -DartifactId=locSDK -Dversion=6.12</p>
-<h3 id="授权目录"><a href="#授权目录" class="headerlink" title="授权目录"></a>授权目录</h3><p>chown -R ‘jsonlu’ /usr/local</p>
-<h3 id="查看端口进程"><a href="#查看端口进程" class="headerlink" title="查看端口进程"></a>查看端口进程</h3><p>lsof -i tcp:12580</p>
-<h3 id="RSA密钥生成命令"><a href="#RSA密钥生成命令" class="headerlink" title="RSA密钥生成命令"></a>RSA密钥生成命令</h3><p>//生成RSA私钥<br>openssl&gt;genrsa -out rsa_private_key.pem 2048<br>//生成RSA公钥<br>openssl&gt;rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem<br>//将RSA私钥转换成PKCS8格式<br>openssl&gt;pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt<br>注意：“&gt;”符号后面的才是需要输入的命令。</p>
-<h3 id="adb命令"><a href="#adb命令" class="headerlink" title="adb命令"></a>adb命令</h3><p>adb shell ps |grep monkey<br>adb shell monkey -p com.fosun.wallet.pay -v 10</p>
-<h3 id="curl实例"><a href="#curl实例" class="headerlink" title="curl实例"></a>curl实例</h3><p>curl -i -X POST -H ‘Content-Type:application/x-www-form-urlencoded; charset:utf-8’ -H ‘User-Agent:Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1’ -H ‘Accept-Encoding:gzip, deflate, sdch’ -H ‘Accept:application/json’ -d ‘service=sumpay.person.realname&amp;mer_id=1000013663’ -x 192.168.8.116:8888 <a href="http://open.sumpay.cn/api.htm" target="_blank" rel="external">http://open.sumpay.cn/api.htm</a></p>
-<h3 id="openssl查看证书（网站）"><a href="#openssl查看证书（网站）" class="headerlink" title="openssl查看证书（网站）"></a>openssl查看证书（网站）</h3><p>openssl s_client -connect baidu.com:443</p>
-<h3 id="mysql操作"><a href="#mysql操作" class="headerlink" title="mysql操作"></a>mysql操作</h3><p>cd /usr/local/mysql<br>//启动<br>sudo support-files/mysql.server start<br>//重启<br>sudo support-files/mysql.server restart<br>//停止<br>sudo support-files/mysql.server stop<br>//检查MySQL 运行状态<br>sudo support-files/mysql.server status </p>
-<h3 id="版本规则"><a href="#版本规则" class="headerlink" title="版本规则"></a>版本规则</h3><p>主版本号.次版本号.修订号<br>主版本号：做了不兼容的 API 修改<br>次版本号：做了向下兼容的功能性新增<br>修订号：做了向下兼容的 bug 修正</p>
-<h3 id="keytool证书操作"><a href="#keytool证书操作" class="headerlink" title="keytool证书操作"></a>keytool证书操作</h3><p>//生成证书<br>keytool -genkey -alias test -keyalg RSA -keysize 1024 -keystore debug.jks -validity 365000<br>//获取证书指纹<br>keytool -list  -v -keystore /Users/jsonlu/WorkSpace/android/latteread3/conf/debug.jks |grep MD5<br>//获取app签名指纹<br>keytool -printcert -file /Users/jsonlu/Desktop/CERT.RSA<br>//获取证书库信息<br>keytool -list -rfc -keystore debug.jks<br>//jarsigner签名<br>jarsigner -keystore debug.jks  /Users/jsonlu/WorkSpace/idea/wechat/build/libs/wechat-service-0.1.0.zip test</p>
+                <h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><p><img src="http://www.runoob.com/wp-content/uploads/2016/04/docker01.png" alt="Docker"></p>
+<ol>
+<li>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从Apache2.0协议开源。</li>
+</ol>
+<ul>
+<li>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</li>
+<li>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</li>
+</ul>
+<h2 id="Docker的应用场景"><a href="#Docker的应用场景" class="headerlink" title="Docker的应用场景"></a>Docker的应用场景</h2><ul>
+<li>Web 应用的自动化打包和发布。</li>
+<li>自动化测试和持续集成、发布。</li>
+<li>在服务型环境中部署和调整数据库或其他的后台应用。</li>
+<li>从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。</li>
+</ul>
+<h2 id="Docker-的优点"><a href="#Docker-的优点" class="headerlink" title="Docker 的优点"></a>Docker 的优点</h2><ol>
+<li>简化程序：<ul>
+<li>Docker 让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，便可以实现虚拟化。Docker改变了虚拟化的方式，使开发者可以直接将自己的成果放入Docker中进行管理。方便快捷已经是 Docker的最大优势，过去需要用数天乃至数周的    任务，在Docker容器的处理下，只需要数秒就能完成。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>避免选择恐惧症：<ul>
+<li>如果你有选择恐惧症，还是资深患者。Docker 帮你    打包你的纠结！比如 Docker 镜像；Docker 镜像中包含了运行环境和配置，所以 Docker 可以简化部署多种应用实例工作。比如 Web 应用、后台应用、数据库应用、大数据应用比如 Hadoop 集群、消息队列等等都可以打包成一个镜像部署。</li>
+</ul>
+</li>
+<li>节省开支：<ul>
+<li>一方面，云计算时代到来，使开发者不必为了追求效果而配置高额的硬件，Docker 改变了高性能必然高价格的思维定势。Docker 与云的结合，让云空间得到更充分的利用。不仅解决了硬件管理的问题，也改变了虚拟化的方式。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker的安装部署"><a href="#Docker的安装部署" class="headerlink" title="Docker的安装部署"></a>Docker的安装部署</h2><h3 id="1-Centos"><a href="#1-Centos" class="headerlink" title="1. Centos"></a>1. Centos</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 1. 使用 sudo 或 root 权限登录 Centos。</div><div class="line">// 2. 确保 yum 包更新到最新。</div><div class="line">$ sudo yum update</div><div class="line">// 3. 执行 Docker 安装脚本。</div><div class="line">$ curl -fsSL https://get.docker.com/ | sh</div><div class="line">// 4. 执行这个脚本会添加 docker.repo 源并安装 Docker。</div><div class="line">// 5. 启动 Docker 进程。</div><div class="line">$ sudo service docker start</div><div class="line">//6. 验证 docker 是否安装成功并在容器中执行一个测试的镜像。</div><div class="line">$ sudo docker run hello-world</div><div class="line">//到此，docker 在 CentOS 系统的安装完成。</div></pre></td></tr></table></figure>
+<h3 id="2-MAC"><a href="#2-MAC" class="headerlink" title="2. MAC"></a>2. MAC</h3><p>需要下载安装包，<a href="https://www.docker.com/" target="_blank" rel="external">DownLoad</a></p>
+<ul>
+<li>邮件(jsonlu@qq.com)</li>
+<li>wechat:JsonLu</li>
+</ul>
+<h2 id="捐助开发者"><a href="#捐助开发者" class="headerlink" title="捐助开发者"></a>捐助开发者</h2><p>在兴趣的驱动下,写一个<code>免费</code>的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。<br>当然，有钱捧个钱场（右上角的爱心标志，支持支付宝和PayPal捐助），没钱捧个人场，谢谢各位。</p>
 
                 <hr>
                 
@@ -182,14 +209,14 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/05/01/android-api-change/" data-toggle="tooltip" data-placement="top"
-                           title="Android API 变更">&larr; Previous Post</a>
+                        <a href="/2017/09/03/docker-commond/" data-toggle="tooltip" data-placement="top"
+                           title="docker-commond">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/04/29/hello-world/" data-toggle="tooltip" data-placement="top"
-                           title="遇见最好的自己">Next Post &rarr;</a>
+                        <a href="/2017/07/03/android-svg/" data-toggle="tooltip" data-placement="top"
+                           title="android-svg">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -205,7 +232,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven3上传jar包"><span class="toc-text">maven3上传jar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#授权目录"><span class="toc-text">授权目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口进程"><span class="toc-text">查看端口进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA密钥生成命令"><span class="toc-text">RSA密钥生成命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adb命令"><span class="toc-text">adb命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl实例"><span class="toc-text">curl实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openssl查看证书（网站）"><span class="toc-text">openssl查看证书（网站）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-text">mysql操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本规则"><span class="toc-text">版本规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keytool证书操作"><span class="toc-text">keytool证书操作</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker的应用场景"><span class="toc-text">Docker的应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-的优点"><span class="toc-text">Docker 的优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker的安装部署"><span class="toc-text">Docker的安装部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Centos"><span class="toc-text">1. Centos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-MAC"><span class="toc-text">2. MAC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#捐助开发者"><span class="toc-text">捐助开发者</span></a></li></ol>
                 </div>
             </div>
         </div>

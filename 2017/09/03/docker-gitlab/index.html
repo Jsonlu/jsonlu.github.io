@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="tool-kit,CI,PM,Gradle,Node">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="JsonLu&#39;s" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        docker-gitlab｜JsonLu Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://jsonlu.github.io/2017/09/03/docker-gitlab/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    JsonLu&#39;s
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>docker-gitlab</h1>
+                    
+                    <span class="meta">
+                         作者 JsonLu
+                        <span>
+                          日期 2017-09-03
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            docker-gitlab
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line"></div><div class="line">services:</div><div class="line">  redis:</div><div class="line">    restart: always</div><div class="line">    image: sameersbn/redis:latest</div><div class="line">    ports:</div><div class="line">    -  &quot;6379:6379&quot;</div><div class="line">    command:</div><div class="line">    - --loglevel warning</div><div class="line">    volumes:</div><div class="line">    - /tmp/docker/gitlab/redis:/var/lib/redis:Z   #文件的挂载点</div><div class="line"></div><div class="line">  postgresql:</div><div class="line">    restart: always</div><div class="line">    image: sameersbn/postgresql:9.6-2</div><div class="line">    ports:</div><div class="line">    -  &quot;5432:5432&quot;</div><div class="line">    volumes:</div><div class="line">    - /tmp/docker/gitlab/postgresql:/var/lib/postgresql:Z   #文件的挂载点</div><div class="line">    environment:</div><div class="line">    - DB_USER=gitlab</div><div class="line">    - DB_PASS=password</div><div class="line">    - DB_NAME=gitlabhq_production</div><div class="line">    - DB_EXTENSION=pg_trgm</div><div class="line"></div><div class="line">  gitlab:</div><div class="line">    restart: always</div><div class="line">    image: sameersbn/gitlab:9.1.4</div><div class="line">    depends_on:</div><div class="line">    - redis</div><div class="line">    - postgresql</div><div class="line">    ports:</div><div class="line">    - &quot;10080:80&quot;</div><div class="line">    - &quot;10022:22&quot;</div><div class="line">    volumes:</div><div class="line">    - /tmp/docker/gitlab/gitlab:/home/git/data:Z  #文件的挂载点</div><div class="line">    environment:</div><div class="line">    - DEBUG=false</div><div class="line"></div><div class="line">    - DB_ADAPTER=postgresql</div><div class="line">    - DB_HOST=postgresql</div><div class="line">    - DB_PORT=5432</div><div class="line">    - DB_USER=gitlab</div><div class="line">    - DB_PASS=password</div><div class="line">    - DB_NAME=gitlabhq_production</div><div class="line"></div><div class="line">    - REDIS_HOST=redis</div><div class="line">    - REDIS_PORT=6379</div><div class="line"></div><div class="line">    - TZ=Asia/Kolkata</div><div class="line">    - GITLAB_TIMEZONE=Kolkata</div><div class="line"></div><div class="line">    - GITLAB_HTTPS=false</div><div class="line">    - SSL_SELF_SIGNED=false</div><div class="line"></div><div class="line">    - GITLAB_HOST=localhost</div><div class="line">    - GITLAB_PORT=10080</div><div class="line">    - GITLAB_SSH_PORT=10022</div><div class="line">    - GITLAB_RELATIVE_URL_ROOT=</div><div class="line">    - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string</div><div class="line">    - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string</div><div class="line">    - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string</div><div class="line"></div><div class="line">    - GITLAB_ROOT_PASSWORD=</div><div class="line">    - GITLAB_ROOT_EMAIL=</div><div class="line"></div><div class="line">    - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true</div><div class="line">    - GITLAB_NOTIFY_PUSHER=false</div><div class="line"></div><div class="line">    - GITLAB_EMAIL=notifications@example.com</div><div class="line">    - GITLAB_EMAIL_REPLY_TO=noreply@example.com</div><div class="line">    - GITLAB_INCOMING_EMAIL_ADDRESS=reply@example.com</div><div class="line"></div><div class="line">    - GITLAB_BACKUP_SCHEDULE=daily</div><div class="line">    - GITLAB_BACKUP_TIME=01:00</div><div class="line"></div><div class="line">    - SMTP_ENABLED=false</div><div class="line">    - SMTP_DOMAIN=www.example.com</div><div class="line">    - SMTP_HOST=smtp.gmail.com</div><div class="line">    - SMTP_PORT=587</div><div class="line">    - SMTP_USER=mailer@example.com</div><div class="line">    - SMTP_PASS=password</div><div class="line">    - SMTP_STARTTLS=true</div><div class="line">    - SMTP_AUTHENTICATION=login</div><div class="line"></div><div class="line">    - IMAP_ENABLED=false</div><div class="line">    - IMAP_HOST=imap.gmail.com</div><div class="line">    - IMAP_PORT=993</div><div class="line">    - IMAP_USER=mailer@example.com</div><div class="line">    - IMAP_PASS=password</div><div class="line">    - IMAP_SSL=true</div><div class="line">    - IMAP_STARTTLS=false</div><div class="line"></div><div class="line">    - OAUTH_ENABLED=false</div><div class="line">    - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=</div><div class="line">    - OAUTH_ALLOW_SSO=</div><div class="line">    - OAUTH_BLOCK_AUTO_CREATED_USERS=true</div><div class="line">    - OAUTH_AUTO_LINK_LDAP_USER=false</div><div class="line">    - OAUTH_AUTO_LINK_SAML_USER=false</div><div class="line">    - OAUTH_EXTERNAL_PROVIDERS=</div><div class="line"></div><div class="line">    - OAUTH_CAS3_LABEL=cas3</div><div class="line">    - OAUTH_CAS3_SERVER=</div><div class="line">    - OAUTH_CAS3_DISABLE_SSL_VERIFICATION=false</div><div class="line">    - OAUTH_CAS3_LOGIN_URL=/cas/login</div><div class="line">    - OAUTH_CAS3_VALIDATE_URL=/cas/p3/serviceValidate</div><div class="line">    - OAUTH_CAS3_LOGOUT_URL=/cas/logout</div><div class="line"></div><div class="line">    - OAUTH_GOOGLE_API_KEY=</div><div class="line">    - OAUTH_GOOGLE_APP_SECRET=</div><div class="line">    - OAUTH_GOOGLE_RESTRICT_DOMAIN=</div><div class="line"></div><div class="line">    - OAUTH_FACEBOOK_API_KEY=</div><div class="line">    - OAUTH_FACEBOOK_APP_SECRET=</div><div class="line"></div><div class="line">    - OAUTH_TWITTER_API_KEY=</div><div class="line">    - OAUTH_TWITTER_APP_SECRET=</div><div class="line"></div><div class="line">    - OAUTH_GITHUB_API_KEY=</div><div class="line">    - OAUTH_GITHUB_APP_SECRET=</div><div class="line">    - OAUTH_GITHUB_URL=</div><div class="line">    - OAUTH_GITHUB_VERIFY_SSL=</div><div class="line"></div><div class="line">    - OAUTH_GITLAB_API_KEY=</div><div class="line">    - OAUTH_GITLAB_APP_SECRET=</div><div class="line"></div><div class="line">    - OAUTH_BITBUCKET_API_KEY=</div><div class="line">    - OAUTH_BITBUCKET_APP_SECRET=</div><div class="line"></div><div class="line">    - OAUTH_SAML_ASSERTION_CONSUMER_SERVICE_URL=</div><div class="line">    - OAUTH_SAML_IDP_CERT_FINGERPRINT=</div><div class="line">    - OAUTH_SAML_IDP_SSO_TARGET_URL=</div><div class="line">    - OAUTH_SAML_ISSUER=</div><div class="line">    - OAUTH_SAML_LABEL=&quot;Our SAML Provider&quot;</div><div class="line">    - OAUTH_SAML_NAME_IDENTIFIER_FORMAT=urn:oasis:names:tc:SAML:2.0:nameid-format:transient</div><div class="line">    - OAUTH_SAML_GROUPS_ATTRIBUTE=</div><div class="line">    - OAUTH_SAML_EXTERNAL_GROUPS=</div><div class="line">    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_EMAIL=</div><div class="line">    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_NAME=</div><div class="line">    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_FIRST_NAME=</div><div class="line">    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_LAST_NAME=</div><div class="line"></div><div class="line">    - OAUTH_CROWD_SERVER_URL=</div><div class="line">    - OAUTH_CROWD_APP_NAME=</div><div class="line">    - OAUTH_CROWD_APP_PASSWORD=</div><div class="line"></div><div class="line">    - OAUTH_AUTH0_CLIENT_ID=</div><div class="line">    - OAUTH_AUTH0_CLIENT_SECRET=</div><div class="line">    - OAUTH_AUTH0_DOMAIN=</div><div class="line"></div><div class="line">    - OAUTH_AZURE_API_KEY=</div><div class="line">    - OAUTH_AZURE_API_SECRET=</div><div class="line">    - OAUTH_AZURE_TENANT_ID=</div></pre></td></tr></table></figure>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/03/docker-jenkins/" data-toggle="tooltip" data-placement="top"
+                           title="docker-jenkins">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/03/docker-compose/" data-toggle="tooltip" data-placement="top"
+                           title="docker-compose">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">链接</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://jsonlu.github.io/">GitHub</a></li>
+                        
+                        <li><a href="https://www.zhihu.com/people/jsonlu-70/activities">ZhiHu</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/JsonLu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/JsonLu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; JsonLu&#39;s 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">@@@@@</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://jsonlu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://jsonlu.github.io/images/imgx.png">
+</body>
+
+</html>

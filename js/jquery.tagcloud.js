@@ -1,3 +1,81 @@
-// build time:Sun Sep 03 2017 15:12:13 GMT+0800 (CST)
-(function(t){t.fn.tagcloud=function(e){var n=t.extend({},t.fn.tagcloud.defaults,e);tagWeights=this.map(function(){return t(this).attr("rel")});tagWeights=jQuery.makeArray(tagWeights).sort(o);lowest=tagWeights[0];highest=tagWeights.pop();range=highest-lowest;if(range===0){range=1}if(n.size){fontIncr=(n.size.end-n.size.start)/range}if(n.color){colorIncr=r(n.color,range)}return this.each(function(){weighting=t(this).attr("rel")-lowest;if(n.size){t(this).css({"font-size":n.size.start+weighting*fontIncr+n.size.unit})}if(n.color){t(this).css({backgroundColor:i(n.color,colorIncr,weighting)})}})};t.fn.tagcloud.defaults={size:{start:14,end:18,unit:"pt"}};function e(t){if(t.length==4){t=jQuery.map(/\w+/.exec(t),function(t){return t+t}).join("")}hex=/(\w{2})(\w{2})(\w{2})/.exec(t);return[parseInt(hex[1],16),parseInt(hex[2],16),parseInt(hex[3],16)]}function n(t){return"#"+jQuery.map(t,function(t){hex=t.toString(16);hex=hex.length==1?"0"+hex:hex;return hex}).join("")}function r(t,n){return jQuery.map(e(t.end),function(r,i){return(r-e(t.start)[i])/n})}function i(t,r,i){rgb=jQuery.map(e(t.start),function(t,e){ref=Math.round(t+r[e]*i);if(ref>255){ref=255}else{if(ref<0){ref=0}}return ref});return n(rgb)}function o(t,e){return t-e}})(jQuery);
-//rebuild by neat 
+(function($) {
+
+  $.fn.tagcloud = function(options) {
+    var opts = $.extend({}, $.fn.tagcloud.defaults, options);
+    tagWeights = this.map(function(){
+      return $(this).attr("rel");
+    });
+    tagWeights = jQuery.makeArray(tagWeights).sort(compareWeights);
+    lowest = tagWeights[0];
+    highest = tagWeights.pop();
+    range = highest - lowest;
+    if(range === 0) {range = 1;}
+    // Sizes
+    if (opts.size) {
+      fontIncr = (opts.size.end - opts.size.start)/range;
+    }
+    // Colors
+    if (opts.color) {
+      colorIncr = colorIncrement (opts.color, range);
+    }
+    return this.each(function() {
+      weighting = $(this).attr("rel") - lowest;
+      if (opts.size) {
+        $(this).css({"font-size": opts.size.start + (weighting * fontIncr) + opts.size.unit});
+      }
+      if (opts.color) {
+        // change color to background-color
+        $(this).css({"backgroundColor": tagColor(opts.color, colorIncr, weighting)});
+      }
+    });
+  };
+
+  $.fn.tagcloud.defaults = {
+    size: {start: 14, end: 18, unit: "pt"}
+  };
+
+  // Converts hex to an RGB array
+  function toRGB (code) {
+    if (code.length == 4) {
+      code = jQuery.map(/\w+/.exec(code), function(el) {return el + el; }).join("");
+    }
+    hex = /(\w{2})(\w{2})(\w{2})/.exec(code);
+    return [parseInt(hex[1], 16), parseInt(hex[2], 16), parseInt(hex[3], 16)];
+  }
+
+  // Converts an RGB array to hex
+  function toHex (ary) {
+    return "#" + jQuery.map(ary, function(i) {
+      hex =  i.toString(16);
+      hex = (hex.length == 1) ? "0" + hex : hex;
+      return hex;
+    }).join("");
+  }
+
+  function colorIncrement (color, range) {
+    return jQuery.map(toRGB(color.end), function(n, i) {
+      return (n - toRGB(color.start)[i])/range;
+    });
+  }
+
+  function tagColor (color, increment, weighting) {
+    rgb = jQuery.map(toRGB(color.start), function(n, i) {
+      ref = Math.round(n + (increment[i] * weighting));
+      if (ref > 255) {
+        ref = 255;
+      } else {
+        if (ref < 0) {
+          ref = 0;
+        }
+      }
+      return ref;
+    });
+    return toHex(rgb);
+  }
+
+  function compareWeights(a, b)
+  {
+    return a - b;
+  }
+
+})(jQuery);

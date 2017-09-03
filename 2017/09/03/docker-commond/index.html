@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="tool-kit,CI,PM,Gradle,Node">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="JsonLu&#39;s" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        docker-commond｜JsonLu Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://jsonlu.github.io/2017/09/03/docker-commond/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    JsonLu&#39;s
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://oco8bvfr8.qnssl.com/blog-bg-black-run.jpg?imageView2/1/w/1400/h/400/interlace/1/q/80')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>docker-commond</h1>
+                    
+                    <span class="meta">
+                         作者 JsonLu
+                        <span>
+                          日期 2017-09-03
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            docker-commond
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><h3 id="容器生命周期管理"><a href="#容器生命周期管理" class="headerlink" title="容器生命周期管理"></a>容器生命周期管理</h3><h4 id="run"><a href="#run" class="headerlink" title="run"></a>run</h4><p>docker run ：创建一个新的容器并运行一个命令</p>
+<p>OPTIONS说明：</p>
+<ul>
+<li>-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</li>
+<li>-d: 后台运行容器，并返回容器ID；</li>
+<li>-i: 以交互模式运行容器，通常与 -t 同时使用；</li>
+<li>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</li>
+<li>–name=”nginx-lb”: 为容器指定一个名称；</li>
+<li>–dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</li>
+<li>–dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</li>
+<li>-h “mars”: 指定容器的hostname；</li>
+<li>-e username=”ritchie”: 设置环境变量；</li>
+<li>–env-file=[]: 从指定文件读入环境变量；</li>
+<li>–cpuset=”0-2” or –cpuset=”0,1,2”: 绑定容器到指定CPU运行；</li>
+<li>-m :设置容器使用内存最大值；</li>
+<li>–net=”bridge”: 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；</li>
+<li>–link=[]: 添加链接到另一个容器；</li>
+<li>–expose=[]: 开放一个端口或一组端口；</li>
+</ul>
+<h6 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h6><p>使用docker镜像nginx:latest以后台模式启动一个容器,并将容器命名为mynginx。</p>
+<blockquote>
+<p>docker run –name mynginx -d nginx:latest</p>
+</blockquote>
+<h3 id="start-stop-restart"><a href="#start-stop-restart" class="headerlink" title="start/stop/restart"></a>start/stop/restart</h3><p>docker start :启动一个或多少已经被停止的容器</p>
+<p>docker stop :停止一个运行中的容器</p>
+<p>docker restart :重启容器</p>
+<blockquote>
+<p>docker start [OPTIONS] CONTAINER [CONTAINER…]<br>docker stop [OPTIONS] CONTAINER [CONTAINER…]<br>docker restart [OPTIONS] CONTAINER [CONTAINER…]</p>
+</blockquote>
+<h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h3><p>docker kill :杀掉一个运行中的容器。</p>
+<blockquote>
+<p>docker kill [OPTIONS] CONTAINER [CONTAINER…]</p>
+</blockquote>
+<ol>
+<li>-s :向容器发送一个信号</li>
+</ol>
+<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><p>杀掉运行中的容器mynginx</p>
+<blockquote>
+<p>runoob@runoob:~$ docker kill -s KILL mynginx</p>
+</blockquote>
+<h3 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h3><p>docker rm ：删除一个或多少容器</p>
+<blockquote>
+<p>docker rm [OPTIONS] CONTAINER [CONTAINER…]</p>
+</blockquote>
+<ul>
+<li>-f :通过SIGKILL信号强制删除一个运行中的容器</li>
+<li>-l :移除容器间的网络连接，而非容器本身</li>
+<li>-v :-v 删除与容器关联的卷</li>
+</ul>
+<h5 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h5><p>强制删除容器db01、db02</p>
+<blockquote>
+<p>docker rm -f db01、db02</p>
+<h3 id="pause-unpause"><a href="#pause-unpause" class="headerlink" title="pause/unpause"></a>pause/unpause</h3><p>docker pause :暂停容器中所有的进程。</p>
+</blockquote>
+<p>docker unpause :恢复容器中所有的进程。</p>
+<blockquote>
+<p>docker pause [OPTIONS] CONTAINER [CONTAINER…]<br>docker unpause [OPTIONS] CONTAINER [CONTAINER…]</p>
+<h5 id="实例-3"><a href="#实例-3" class="headerlink" title="实例"></a>实例</h5><ol>
+<li>暂停数据库容器db01提供服务。</li>
+</ol>
+<p>docker pause db01</p>
+<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><p>docker create ：创建一个新的容器但不启动它</p>
+<p>docker create [OPTIONS] IMAGE [COMMAND] [ARG…]</p>
+</blockquote>
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h3><p>docker exec ：在运行的容器中执行命令</p>
+<blockquote>
+<p>docker exec [OPTIONS] CONTAINER COMMAND [ARG…]</p>
+</blockquote>
+<ul>
+<li>-d :分离模式: 在后台运行</li>
+<li>-i :即使没有附加也保持STDIN 打开</li>
+<li>-t :分配一个伪终端</li>
+</ul>
+<h5 id="实例-4"><a href="#实例-4" class="headerlink" title="实例"></a>实例</h5><p>在容器mynginx中以交互模式执行容器内/root/runoob.sh脚本</p>
+<blockquote>
+<p>runoob@runoob:~$ docker exec -it mynginx /bin/sh /root/runoob.sh</p>
+<p><a href="http://www.runoob.com/" target="_blank" rel="external">http://www.runoob.com/</a></p>
+<h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><h3 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h3><h3 id="inspect"><a href="#inspect" class="headerlink" title="inspect"></a>inspect</h3><h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><h3 id="attach"><a href="#attach" class="headerlink" title="attach"></a>attach</h3><h3 id="events"><a href="#events" class="headerlink" title="events"></a>events</h3><h3 id="logs"><a href="#logs" class="headerlink" title="logs"></a>logs</h3><h3 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h3><h3 id="export"><a href="#export" class="headerlink" title="export"></a>export</h3><h3 id="port"><a href="#port" class="headerlink" title="port"></a>port</h3><h2 id="容器rootfs命令"><a href="#容器rootfs命令" class="headerlink" title="容器rootfs命令"></a>容器rootfs命令</h2><h3 id="commit"><a href="#commit" class="headerlink" title="commit"></a>commit</h3><h3 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h3><h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><h2 id="镜像仓库"><a href="#镜像仓库" class="headerlink" title="镜像仓库"></a>镜像仓库</h2><h3 id="login"><a href="#login" class="headerlink" title="login"></a>login</h3><h3 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h3><h3 id="push"><a href="#push" class="headerlink" title="push"></a>push</h3><h3 id="search"><a href="#search" class="headerlink" title="search"></a>search</h3><h2 id="本地镜像管理"><a href="#本地镜像管理" class="headerlink" title="本地镜像管理"></a>本地镜像管理</h2><h3 id="images"><a href="#images" class="headerlink" title="images"></a>images</h3><h3 id="rmi"><a href="#rmi" class="headerlink" title="rmi"></a>rmi</h3><h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><h3 id="history"><a href="#history" class="headerlink" title="history"></a>history</h3><h3 id="save"><a href="#save" class="headerlink" title="save"></a>save</h3><h3 id="import"><a href="#import" class="headerlink" title="import"></a>import</h3><h3 id="info-version"><a href="#info-version" class="headerlink" title="info|version"></a>info|version</h3><h3 id="info"><a href="#info" class="headerlink" title="info"></a>info</h3><h3 id="version"><a href="#version" class="headerlink" title="version"></a>version</h3></blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/03/docker-dockerfile/" data-toggle="tooltip" data-placement="top"
+                           title="docker-dockerfile">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/03/docker-study/" data-toggle="tooltip" data-placement="top"
+                           title="Docker学习(一)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#容器生命周期管理"><span class="toc-text">容器生命周期管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#run"><span class="toc-text">run</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start-stop-restart"><span class="toc-text">start/stop/restart</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kill"><span class="toc-text">kill</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实例-1"><span class="toc-text">实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rm"><span class="toc-text">rm</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实例-2"><span class="toc-text">实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pause-unpause"><span class="toc-text">pause/unpause</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实例-3"><span class="toc-text">实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#create"><span class="toc-text">create</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exec"><span class="toc-text">exec</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#实例-4"><span class="toc-text">实例</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器操作"><span class="toc-text">容器操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ps"><span class="toc-text">ps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inspect"><span class="toc-text">inspect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#top"><span class="toc-text">top</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attach"><span class="toc-text">attach</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#events"><span class="toc-text">events</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logs"><span class="toc-text">logs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wait"><span class="toc-text">wait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#export"><span class="toc-text">export</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#port"><span class="toc-text">port</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器rootfs命令"><span class="toc-text">容器rootfs命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#commit"><span class="toc-text">commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cp"><span class="toc-text">cp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#diff"><span class="toc-text">diff</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像仓库"><span class="toc-text">镜像仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#login"><span class="toc-text">login</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pull"><span class="toc-text">pull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#push"><span class="toc-text">push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#search"><span class="toc-text">search</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地镜像管理"><span class="toc-text">本地镜像管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#images"><span class="toc-text">images</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rmi"><span class="toc-text">rmi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tag"><span class="toc-text">tag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#build"><span class="toc-text">build</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history"><span class="toc-text">history</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#save"><span class="toc-text">save</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import"><span class="toc-text">import</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info-version"><span class="toc-text">info|version</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#info"><span class="toc-text">info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#version"><span class="toc-text">version</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">链接</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://jsonlu.github.io/">GitHub</a></li>
+                        
+                        <li><a href="https://www.zhihu.com/people/jsonlu-70/activities">ZhiHu</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/JsonLu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/JsonLu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; JsonLu&#39;s 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">@@@@@</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://jsonlu.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="https://jsonlu.github.io/images/imgx.png">
+</body>
+
+</html>

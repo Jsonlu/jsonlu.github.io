@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        一些命令｜JsonLu Blog
+        docker-zookeeper｜JsonLu Blog
         
     </title>
 
-    <link rel="canonical" href="https://jsonlu.github.io/2017/04/30/some-commond/">
+    <link rel="canonical" href="https://jsonlu.github.io/2017/09/03/docker-zookeeper/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,12 +137,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>一些命令</h1>
+                    <h1>docker-zookeeper</h1>
                     
                     <span class="meta">
                          作者 JsonLu
                         <span>
-                          日期 2017-04-30
+                          日期 2017-09-03
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -154,7 +154,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            一些命令
+            docker-zookeeper
         </span>
     </div>
 </header>
@@ -165,31 +165,16 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h3 id="maven3上传jar包"><a href="#maven3上传jar包" class="headerlink" title="maven3上传jar包"></a>maven3上传jar包</h3><p>mvn deploy:deploy-file -DrepositoryId=Sumpay-releases -Durl=<a href="http://192.168.8.238:8081/repository/thirdparty/" target="_blank" rel="external">http://192.168.8.238:8081/repository/thirdparty/</a> -Dpackaging=jar -Dfile=WorkSpace/android/libs/locSDK_6.12.jar -DgroupId=com.baidu -DartifactId=locSDK -Dversion=6.12</p>
-<h3 id="授权目录"><a href="#授权目录" class="headerlink" title="授权目录"></a>授权目录</h3><p>chown -R ‘jsonlu’ /usr/local</p>
-<h3 id="查看端口进程"><a href="#查看端口进程" class="headerlink" title="查看端口进程"></a>查看端口进程</h3><p>lsof -i tcp:12580</p>
-<h3 id="RSA密钥生成命令"><a href="#RSA密钥生成命令" class="headerlink" title="RSA密钥生成命令"></a>RSA密钥生成命令</h3><p>//生成RSA私钥<br>openssl&gt;genrsa -out rsa_private_key.pem 2048<br>//生成RSA公钥<br>openssl&gt;rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem<br>//将RSA私钥转换成PKCS8格式<br>openssl&gt;pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt<br>注意：“&gt;”符号后面的才是需要输入的命令。</p>
-<h3 id="adb命令"><a href="#adb命令" class="headerlink" title="adb命令"></a>adb命令</h3><p>adb shell ps |grep monkey<br>adb shell monkey -p com.fosun.wallet.pay -v 10</p>
-<h3 id="curl实例"><a href="#curl实例" class="headerlink" title="curl实例"></a>curl实例</h3><p>curl -i -X POST -H ‘Content-Type:application/x-www-form-urlencoded; charset:utf-8’ -H ‘User-Agent:Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1’ -H ‘Accept-Encoding:gzip, deflate, sdch’ -H ‘Accept:application/json’ -d ‘service=sumpay.person.realname&amp;mer_id=1000013663’ -x 192.168.8.116:8888 <a href="http://open.sumpay.cn/api.htm" target="_blank" rel="external">http://open.sumpay.cn/api.htm</a></p>
-<h3 id="openssl查看证书（网站）"><a href="#openssl查看证书（网站）" class="headerlink" title="openssl查看证书（网站）"></a>openssl查看证书（网站）</h3><p>openssl s_client -connect baidu.com:443</p>
-<h3 id="mysql操作"><a href="#mysql操作" class="headerlink" title="mysql操作"></a>mysql操作</h3><p>cd /usr/local/mysql<br>//启动<br>sudo support-files/mysql.server start<br>//重启<br>sudo support-files/mysql.server restart<br>//停止<br>sudo support-files/mysql.server stop<br>//检查MySQL 运行状态<br>sudo support-files/mysql.server status </p>
-<h3 id="版本规则"><a href="#版本规则" class="headerlink" title="版本规则"></a>版本规则</h3><p>主版本号.次版本号.修订号<br>主版本号：做了不兼容的 API 修改<br>次版本号：做了向下兼容的功能性新增<br>修订号：做了向下兼容的 bug 修正</p>
-<h3 id="keytool证书操作"><a href="#keytool证书操作" class="headerlink" title="keytool证书操作"></a>keytool证书操作</h3><p>//生成证书<br>keytool -genkey -alias test -keyalg RSA -keysize 1024 -keystore debug.jks -validity 365000<br>//获取证书指纹<br>keytool -list  -v -keystore /Users/jsonlu/WorkSpace/android/latteread3/conf/debug.jks |grep MD5<br>//获取app签名指纹<br>keytool -printcert -file /Users/jsonlu/Desktop/CERT.RSA<br>//获取证书库信息<br>keytool -list -rfc -keystore debug.jks<br>//jarsigner签名<br>jarsigner -keystore debug.jks  /Users/jsonlu/WorkSpace/idea/wechat/build/libs/wechat-service-0.1.0.zip test</p>
-
+                <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  zoo1:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo1</div><div class="line">    ports:</div><div class="line">      - &quot;20181:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 1</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div><div class="line">  zoo2:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo2</div><div class="line">    ports:</div><div class="line">      - &quot;20182:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 2</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div><div class="line">  zoo3:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo3</div><div class="line">    ports:</div><div class="line">      - &quot;20183:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 3</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div></pre></td></tr></table></figure>
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/05/01/android-api-change/" data-toggle="tooltip" data-placement="top"
-                           title="Android API 变更">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/04/29/hello-world/" data-toggle="tooltip" data-placement="top"
-                           title="遇见最好的自己">Next Post &rarr;</a>
+                        <a href="/2017/09/03/docker-mycat-rw/" data-toggle="tooltip" data-placement="top"
+                           title="docker-mycat-rw">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -205,7 +190,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#maven3上传jar包"><span class="toc-text">maven3上传jar包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#授权目录"><span class="toc-text">授权目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口进程"><span class="toc-text">查看端口进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSA密钥生成命令"><span class="toc-text">RSA密钥生成命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adb命令"><span class="toc-text">adb命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl实例"><span class="toc-text">curl实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openssl查看证书（网站）"><span class="toc-text">openssl查看证书（网站）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql操作"><span class="toc-text">mysql操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本规则"><span class="toc-text">版本规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#keytool证书操作"><span class="toc-text">keytool证书操作</span></a></li></ol>
+                    
                 </div>
             </div>
         </div>
