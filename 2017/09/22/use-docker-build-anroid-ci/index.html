@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        docker-zookeeper｜JsonLu Blog
+        使用docker+nodejs+gradle搭建android持续集成环境｜JsonLu Blog
         
     </title>
 
-    <link rel="canonical" href="https://jsonlu.github.io/2017/09/03/docker-zookeeper/">
+    <link rel="canonical" href="https://jsonlu.github.io/2017/09/22/use-docker-build-anroid-ci/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,12 +137,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>docker-zookeeper</h1>
+                    <h1>使用docker+nodejs+gradle搭建android持续集成环境</h1>
                     
                     <span class="meta">
                          作者 JsonLu
                         <span>
-                          日期 2017-09-03
+                          日期 2017-09-22
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -154,7 +154,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            docker-zookeeper
+            使用docker+nodejs+gradle搭建android持续集成环境
         </span>
     </div>
 </header>
@@ -165,21 +165,32 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line">services:</div><div class="line">  zoo1:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo1</div><div class="line">    ports:</div><div class="line">      - &quot;20181:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 1</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div><div class="line">  zoo2:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo2</div><div class="line">    ports:</div><div class="line">      - &quot;20182:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 2</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div><div class="line">  zoo3:</div><div class="line">    image: zookeeper</div><div class="line">    restart: always</div><div class="line">    container_name: zoo3</div><div class="line">    ports:</div><div class="line">      - &quot;20183:2181&quot;</div><div class="line">    environment:</div><div class="line">      ZOO_MY_ID: 3</div><div class="line">      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888</div></pre></td></tr></table></figure>
+                <p>如题，需要搭建一套满足开箱即用的持续集成打包环境（笔者太懒，不喜欢给别人打包），满足非技术开发的日常工作之需。</p>
+<p>以下是环境构成，介于打包环境搭建比较复杂，笔者就做了一个docker镜像，免去搭建环境或者环境因素导致的各种不愉快；这里不再赘述docker镜像如何制作如何使用等等过程，需要的童鞋自行百度。</p>
+<p><img src="https://pic3.zhimg.com/v2-9e95bdfc17e5e43683ce54fc82ae6516_b.jpg" alt=""></p>
+<p>接下来需要项目支持gradle命令打包并上传到第三方存储位置</p>
+<h2 id="项目构建脚本支持"><a href="#项目构建脚本支持" class="headerlink" title="项目构建脚本支持"></a>项目构建脚本支持</h2><hr>
+<p>需要在build.gradle 中支持打包并上传脚本，增加task操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">task upload(type: Exec, dependsOn: assemble) &#123;</div><div class="line">    workingDir &apos;./&apos;</div><div class="line">    commandLine &apos;curl&apos;, &apos;-F&apos;, &quot;file=$file&quot;, &apos;-F&apos;, &quot;uKey=$uKey&quot;, &apos;-F&apos;, &quot;_api_key=$_api_key&quot;, &apos;https://qiniu-storage.pgyer.com/apiv1/app/upload&apos;</div><div class="line">&#125;</div><div class="line"></div><div class="line">task uploads(type: Exec) &#123;</div><div class="line">    workingDir &apos;./&apos;</div><div class="line">    File f = new File(file)</div><div class="line">    if (f.exists())</div><div class="line">        commandLine &apos;curl&apos;, &apos;-F&apos;, &quot;file=@$file&quot;, &apos;-F&apos;, &quot;uKey=$uKey&quot;, &apos;-F&apos;, &quot;_api_key=$_api_key&quot;, &apos;https://qiniu-storage.pgyer.com/apiv1/app/upload&apos;</div><div class="line">    else</div><div class="line">        print(&quot;请构建后再操作&quot;)</div><div class="line">&#125;</div><div class="line">task upload1(type: Exec) &#123;</div><div class="line">    workingDir &apos;./&apos;</div><div class="line">    File f = new File(file)</div><div class="line">    if (f.exists())</div><div class="line">        commandLine &apos;curl&apos;, &apos;-F&apos;, &quot;file=@$file1&quot;, &apos;-F&apos;, &quot;uKey=$uKey&quot;, &apos;-F&apos;, &quot;_api_key=$_api_key&quot;, &apos;https://qiniu-storage.pgyer.com/apiv1/app/upload&apos;</div><div class="line">    else</div><div class="line">        print(&quot;请构建后再操作&quot;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<a href="http://link.zhihu.com/?target=http%3A/gradle.properties/" target="_blank" rel="external">gradle.properties<span class="icon-external" style="font-size:24px;line-height:1;font-family:icomoon !important;"></span></a>中增加几个全局配置file1、file、_api_key、uKey配置<br>file、file1为不同版本的打包文件位置，填写的时候注意路径<br>_api_key、uKey为蒲公英的配置信息</p>
+<h2 id="nodejs应用支持"><a href="#nodejs应用支持" class="headerlink" title="nodejs应用支持"></a>nodejs应用支持</h2><hr>
+<p>nodejs应用作为前置接受数据并转换数据的应用，负责调起git、gradle操作命令，操作成功后推送消息到钉钉的工作，通过docker数据卷运行在docker容器中。</p>
+<p>源码在我的github<a href="http://link.zhihu.com/?target=https%3A/github.com/Jsonlu/nodejsapp" target="_blank" rel="external">项目链接<span class="icon-external" style="font-size:24px;line-height:1;font-family:icomoon !important;"></span></a>，需要配置的内容主要在config.json文件中。<br>data.group节点里面是团队下面配置的钉钉token地址</p>
+<p>data.git下面是一些项目的git地址、分支信息、团队信息（关联data.group下面的数据）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;data&quot;: &#123;</div><div class="line">    &quot;group&quot;: &#123;</div><div class="line">      &quot;android-developers&quot;: [</div><div class="line">        &quot;86ec7c3f367352e6794b935c027b760d964074f0448581a6a00f3da4b4784852&quot;</div><div class="line">      ],</div><div class="line">      &quot;yujieqiong&quot;: [</div><div class="line">        &quot;&quot;</div><div class="line">      ]</div><div class="line">    &#125;,</div><div class="line">    &quot;git&quot;: &#123;</div><div class="line">      &quot;StaffLoan&quot;: &#123;</div><div class="line">        &quot;url&quot;: &quot;git@116.62.113.124:android-developers/StaffLoan.git&quot;,</div><div class="line">        &quot;branch&quot;: [</div><div class="line">          &#123;</div><div class="line">            &quot;name&quot;: &quot;dev&quot;,</div><div class="line">            &quot;ci_url&quot;: &quot;https://www.pgyer.com/lo8P&quot;,</div><div class="line">            &quot;ci_logo&quot;: &quot;https://www.pgyer.com/app/qrcode/lo8P&quot;</div><div class="line">          &#125;,</div><div class="line">          &#123;</div><div class="line">            &quot;name&quot;: &quot;master&quot;,</div><div class="line">            &quot;ci_url&quot;: &quot;https://www.pgyer.com/Qk03&quot;,</div><div class="line">            &quot;ci_logo&quot;: &quot;https://www.pgyer.com/app/qrcode/Qk03&quot;</div><div class="line">          &#125;</div><div class="line">        ],</div><div class="line">        &quot;group&quot;: &quot;android-developers&quot;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>请求url采用rest接口方式 ip:8086/build/:group/:project/:branch/:task，task需要注意代码中的配置</p>
+<p>例如 ip:8086/api/build/android-developers/StaffLoan/dev/1</p>
+<h2 id="Docker环境编排"><a href="#Docker环境编排" class="headerlink" title="Docker环境编排"></a>Docker环境编排</h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">version: &quot;2&quot;</div><div class="line"></div><div class="line">services:</div><div class="line">  nodejs:</div><div class="line">    container_name: node</div><div class="line">    image: registry.cn-hangzhou.aliyuncs.com/jsonlu/ci-nodejs:1.0.0</div><div class="line">    volumes:</div><div class="line">      - /root/.ssh:/root/.ssh  #私钥用于git认证</div><div class="line">      - ./app:/app  #nodejs应用的目录</div><div class="line">    ports:</div><div class="line">      - 8086:3000</div><div class="line">    command:</div><div class="line">      node /app/index.js</div><div class="line">    mem_limit: 2048m</div><div class="line">    restart: always</div></pre></td></tr></table></figure>
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/09/22/use-docker-build-anroid-ci/" data-toggle="tooltip" data-placement="top"
-                           title="使用docker+nodejs+gradle搭建android持续集成环境">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/09/03/docker-mycat-rw/" data-toggle="tooltip" data-placement="top"
-                           title="docker-mycat-rw">Next Post &rarr;</a>
+                        <a href="/2017/09/03/docker-zookeeper/" data-toggle="tooltip" data-placement="top"
+                           title="docker-zookeeper">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -195,7 +206,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目构建脚本支持"><span class="toc-text">项目构建脚本支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nodejs应用支持"><span class="toc-text">nodejs应用支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker环境编排"><span class="toc-text">Docker环境编排</span></a></li></ol>
                 </div>
             </div>
         </div>

@@ -265,6 +265,31 @@
 
 <div class="post-preview "
      style="background-image: url('')">
+    <a href="/2017/06/20/gradle-lint/">
+        <h2 class="post-title">
+            gradle-lint关闭
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-06-20
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                Lintlint为gradle中的任务(task)，为代码进行静态检查并生成html和xml的报告文件，在构建的过程中比较耗时（多次测试，占构建时间的1/3左右）。那么在执行多渠道版本的时候，这个是多余的task，有必要关闭
+
+gradle.taskGraph.whenReady { graph..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview "
+     style="background-image: url('')">
     <a href="/2017/05/21/Candidates/">
         <h2 class="post-title">
             应聘时最漂亮的回答
@@ -481,29 +506,6 @@ RenderScript NDK
 隐藏式字幕设置
 RTL 功能
 安全增强功能..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview "
-     style="background-image: url('')">
-    <a href="/2017/04/30/some-commond/">
-        <h2 class="post-title">
-            一些命令
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2017-04-30
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                maven3上传jar包mvn deploy:deploy-file -DrepositoryId=Sumpay-releases -Durl=http://192.168.8.238:8081/repository/thirdparty/ -Dpackaging=jar -Dfile=Work..
             </p>
         </div>
     </a>
